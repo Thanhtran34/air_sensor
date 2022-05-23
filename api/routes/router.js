@@ -7,7 +7,7 @@
  export const router = express.Router();
  const controller = new HomeController();
  
- router.get("/", (req, res, next) => controller.getSensorData(req, res, next));
+ router.get("/api", (req, res, next) => controller.getSensorData(req, res, next));
  router.use("*", (req, res, next) => {
    const error = new Error();
    error.status = 404;
