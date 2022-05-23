@@ -14,12 +14,12 @@
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
-#define WIFI_SSID "Tele2_a958ba"
-#define WIFI_PASSWORD "jtmkzykr"
-#define API_KEY "AIzaSyDcSsOadfdncO4TEVu-0CBAr7JulPoMsaE"
-#define USER_EMAIL "pinktulip306@yahoo.com"
-#define USER_PASSWORD "Rbk=YlaemlrrI+EwXn9h"
-#define DATABASE_URL "https://airquality-11-default-rtdb.firebaseio.com/"
+#define WIFI_SSID "your wifi name"
+#define WIFI_PASSWORD "your wi fi password"
+#define API_KEY "firebase api key"
+#define USER_EMAIL "user email in firebase"
+#define USER_PASSWORD "user password"
+#define DATABASE_URL "your firebase database url"
 
 // Define Firebase objects
 FirebaseData fbdo;
