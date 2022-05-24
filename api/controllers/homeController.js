@@ -20,7 +20,8 @@
    databaseURL: process.env.DATABASE,
  });
  const db = admin.database();
- const userRef = db.ref("/UsersData");
+ const path = "/UsersData/" + process.env.SECRET + "/readings"
+ const userRef = db.ref(path);
  
  /**
   * Encapsulates a home controller.
@@ -29,7 +30,7 @@
    async getSensorData(req, res, next) {
      try {
        await userRef.once("value", (snap) => {
-         res.status(200).json({ "users": snap.val() });
+         res.status(200).json(snap.val());
        });
      } catch (e) {
        next(e);
