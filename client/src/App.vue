@@ -1,15 +1,16 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <line-chart/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LineChart from './components/LineChart.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    LineChart
   }
 }
 </script>
