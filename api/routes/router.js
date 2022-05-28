@@ -8,7 +8,7 @@
  const controller = new HomeController();
  
  router.get("/api/quality", (req, res, next) => {
-  controller.getHumAndTem(req, res, next)
+  controller.getAllData(req, res, next)
   //controller.updateData(req, res, next)
  });
  router.get("/api/humidity", (req, res, next) => controller.getHumidity(req, res, next));

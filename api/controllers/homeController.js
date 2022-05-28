@@ -33,6 +33,7 @@ let gasData;
 let sensor;
 let newSensorData;
 
+/** 
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID,
   key: process.env.PUSHER_APP_KEY,
@@ -40,6 +41,7 @@ const pusher = new Pusher({
   cluster: process.env.PUSHER_APP_CLUSTER,
   encrypted: true,
 });
+*/
 
 /**
  * Encapsulates a home controller.
@@ -53,14 +55,7 @@ export class HomeController {
         .once("value", (snap) => {
           humidityData = snap.val();
         });
-
-      Object.values(humidityData).forEach((val) => {
-        humiditySensor.push({
-          humidity: val.humidity,
-          timestamp: val.timestamp,
-        });
-      });
-      res.status(200).json({ hRecords: humiditySensor });
+      res.status(200).json({ hRecords: Object.values(humiditySensor)});
     } catch (e) {
       next(e);
     }
@@ -74,20 +69,13 @@ export class HomeController {
         .once("value", (snap) => {
           temperatureData = snap.val();
         });
-
-      Object.values(temperatureData).forEach((val) => {
-        temperatureSensor.push({
-          temperature: val.temperature,
-          timestamp: val.timestamp,
-        });
-      });
-      res.status(200).json({ tRecords: temperatureSensor });
+      res.status(200).json({ tRecords: Object.values(temperatureSensor)});
     } catch (e) {
       next(e);
     }
   }
 
-  async getHumAndTem(req, res, next) {
+  async getAllData(req, res, next) {
     try {
       await userRef
         .child("readings")
@@ -95,15 +83,7 @@ export class HomeController {
         .once("value", (snap) => {
           sensor = snap.val();
         });
-
-      Object.values(sensor).forEach((val) => {
-        data.push({
-          humidity: val.humidity,
-          temperature: val.temperature,
-          timestamp: val.timestamp,
-        });
-      });
-      res.status(200).json({ dataPoints: data });
+        res.status(200).json({ dataPoints: Object.values(sensor)});
     } catch (e) {
       next(e);
     }
@@ -117,14 +97,7 @@ export class HomeController {
         .once("value", (snap) => {
           gasData = snap.val();
         });
-
-      Object.values(gasData).forEach((val) => {
-        gasSensor.push({
-          gas: val.gas,
-          timestamp: val.timestamp,
-        });
-      });
-      res.status(200).json({ gRecords: gasSensor });
+      res.status(200).json({ gRecords: Object.values(gasSensor)});
     } catch (e) {
       next(e);
     }
