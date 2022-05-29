@@ -13,11 +13,11 @@ export default {
   props: ["axisData"],
   computed: {
     maxValue() {
-      return Math.max(...this.axisData.map((el) => el.y + el.z));
+      return Math.max(...this.axisData.map((el) => el.y + el.z + el.g));
     },
   },
   methods: {
-    renderBarChart() {
+    renderLineChart() {
       const height = 370;
       const roundedHeight = Math.ceil((height + 1) / 10) * 10;
       const width = 550;
@@ -52,7 +52,7 @@ export default {
         .attr("height", (data) => roundedHeight - yScale(data.y + data.z))
         .attr("x", (data) => xScale(data.x))
         .attr("y", (data) => yScale(data.y + data.z))
-        .attr("fill", (d) => color(d))
+        .attr("fill", (d) => color(d));
       // add the x Axis
       container
         .append("g")
@@ -66,14 +66,14 @@ export default {
       container
         .append("g")
         .style("font", "16px times")
-        .call(d3.axisLeft(yScale));    
+        .call(d3.axisLeft(yScale));
     },
   },
   mounted() {
-    this.renderBarChart();
+    this.renderLineChart();
   },
   updated() {
-    this.renderBarChart();
+    this.renderLineChart();
   },
   beforeUpdate() {
     const svg = d3.select("svg");

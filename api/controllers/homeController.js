@@ -5,6 +5,7 @@ import admin from "firebase-admin";
 import { cert } from "firebase-admin/app";
 import Pusher from "pusher";
 
+// Credentials for firebase real time database
 admin.initializeApp({
   credential: cert({
     type: process.env.TYPE,
@@ -21,17 +22,8 @@ admin.initializeApp({
   databaseURL: process.env.DATABASE,
 });
 const db = admin.database();
-const path = "/UsersData/" + process.env.SECRET;
+const path = "/UsersData/" + process.env.SECRET; // path to data for air quality
 const userRef = db.ref(path);
-const data = [];
-const humiditySensor = [];
-const temperatureSensor = [];
-const gasSensor = [];
-let humidityData;
-let temperatureData;
-let gasData;
-let sensor;
-let newSensorData;
 
 /** 
 const pusher = new Pusher({
@@ -47,36 +39,57 @@ const pusher = new Pusher({
  * Encapsulates a home controller.
  */
 export class HomeController {
+  // Method to retrieve humidity data from firebase
   async getHumidity(req, res, next) {
     try {
+      const humiditySensor = [];
+      let humidityData;
       await userRef
         .child("readings")
         .limitToLast(6)
         .once("value", (snap) => {
           humidityData = snap.val();
         });
-      res.status(200).json({ hRecords: Object.values(humiditySensor)});
+
+        Object.values(humidityData).map((el) => {
+          humiditySensor.push ({
+            humidity: el.humidity,
+            timestamp: el.timestamp
+          })
+        });
+      res.status(200).json({ hRecords: humiditySensor});
     } catch (e) {
       next(e);
     }
   }
 
+  // Method to get data for temperature from firebase
   async getTemperature(req, res, next) {
     try {
+      const temperatureSensor = [];
+      let temperatureData;
       await userRef
         .child("readings")
         .limitToLast(6)
         .once("value", (snap) => {
           temperatureData = snap.val();
         });
-      res.status(200).json({ tRecords: Object.values(temperatureSensor)});
+        Object.values(temperatureData).map((el) => {
+          temperatureSensor.push ({
+            temperature: el.temperature,
+            timestamp: el.timestamp
+          })
+        });
+      res.status(200).json({ tRecords: temperatureSensor});
     } catch (e) {
       next(e);
     }
   }
 
+  // Method to get all sensor data from firebase
   async getAllData(req, res, next) {
     try {
+      let sensor;
       await userRef
         .child("readings")
         .limitToLast(6)
@@ -89,15 +102,25 @@ export class HomeController {
     }
   }
 
+  // Method to get data of gas level from firebase
   async getGas(req, res, next) {
     try {
+      let gasData;
+      const gasSensor = [];
       await userRef
         .child("readings")
         .limitToLast(6)
         .once("value", (snap) => {
           gasData = snap.val();
         });
-      res.status(200).json({ gRecords: Object.values(gasSensor)});
+
+        Object.values(gasData).map((el) => {
+          gasSensor.push ({
+            gas: el.gas,
+            timestamp: el.timestamp
+          })
+        });
+      res.status(200).json({ gRecords: gasSensor});
     } catch (e) {
       next(e);
     }
