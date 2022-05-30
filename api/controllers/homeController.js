@@ -24,8 +24,9 @@ admin.initializeApp({
 const db = admin.database();
 const path = "/UsersData/" + process.env.SECRET; // path to data for air quality
 const userRef = db.ref(path);
+let sensor;
 
-/** 
+
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID,
   key: process.env.PUSHER_APP_KEY,
@@ -33,7 +34,7 @@ const pusher = new Pusher({
   cluster: process.env.PUSHER_APP_CLUSTER,
   encrypted: true,
 });
-*/
+
 
 /**
  * Encapsulates a home controller.
@@ -46,7 +47,7 @@ export class HomeController {
       let humidityData;
       await userRef
         .child("readings")
-        .limitToLast(6)
+        .limitToLast(12)
         .once("value", (snap) => {
           humidityData = snap.val();
         });
@@ -70,7 +71,7 @@ export class HomeController {
       let temperatureData;
       await userRef
         .child("readings")
-        .limitToLast(6)
+        .limitToLast(12)
         .once("value", (snap) => {
           temperatureData = snap.val();
         });
@@ -86,22 +87,6 @@ export class HomeController {
     }
   }
 
-  // Method to get all sensor data from firebase
-  async getAllData(req, res, next) {
-    try {
-      let sensor;
-      await userRef
-        .child("readings")
-        .limitToLast(6)
-        .once("value", (snap) => {
-          sensor = snap.val();
-        });
-        res.status(200).json({ dataPoints: Object.values(sensor)});
-    } catch (e) {
-      next(e);
-    }
-  }
-
   // Method to get data of gas level from firebase
   async getGas(req, res, next) {
     try {
@@ -109,7 +94,7 @@ export class HomeController {
       const gasSensor = [];
       await userRef
         .child("readings")
-        .limitToLast(6)
+        .limitToLast(12)
         .once("value", (snap) => {
           gasData = snap.val();
         });
@@ -126,10 +111,25 @@ export class HomeController {
     }
   }
 
-  updateData(req, res, next) {
+  // Method to get all sensor data from firebase
+  async getAllData(req, res, next) {
     try {
+      await userRef
+        .child("readings")
+        .limitToLast(12)
+        .once("value", (snap) => {
+          sensor = snap.val();
+        });
+        res.status(200).json({ dataPoints: Object.values(sensor)});
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async updateData(req, res, next) {
+    try {
+      let newSensorData;
       let newPoint;
-      setInterval(async () => {
         await userRef
           .child("readings")
           .limitToLast(1)
@@ -139,11 +139,9 @@ export class HomeController {
 
         newPoint = Object.values(newSensorData).pop();
 
-        data.push(newPoint);
         pusher.trigger("air-quality", "new-quality", {
           dataPoint: newPoint,
         });
-      }, 2000);
       res.send({
         success: true,
         dataPoint: newPoint
