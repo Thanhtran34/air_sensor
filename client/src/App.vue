@@ -14,7 +14,7 @@
         >(Gas contains NH3, Nox, CO2, Alcohol, Benzene, Smoke. Gas level is measured to detect harmful gas in the environment.)</i
       >
     </p>
-    <button @click="collectData()" class="btn btn-success">SEARCH</button>
+    <button @click="collectData()" class="btn btn-success">CHECK</button>
     <br />
     <bar-chart :axisData="axisData" v-if="axisData.length > 0" />
   </div>
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       axisData: [],
-      diagrams: [{ diagram: "Bar Chart1" }, { diagram: "Bar Chart2" }, { diagram: "Bar Chart3" }],
+      diagrams: [{ diagram: "Bar Chart1" }, { diagram: "Bar Chart2" }, { diagram: "Bar Chart3" }, { diagram: "Donut Chart1" } ],
     };
   },
   methods: {
