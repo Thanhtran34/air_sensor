@@ -40,13 +40,13 @@ export class HomeController {
           humidityData = snap.val();
         });
 
-        Object.values(humidityData).map((el) => {
-          humiditySensor.push ({
-            humidity: el.humidity,
-            timestamp: el.timestamp
-          })
+      Object.values(humidityData).map((el) => {
+        humiditySensor.push({
+          humidity: el.humidity,
+          timestamp: el.timestamp,
         });
-      res.status(200).json({ hRecords: humiditySensor});
+      });
+      res.status(200).json({ hRecords: humiditySensor });
     } catch (e) {
       next(e);
     }
@@ -63,13 +63,13 @@ export class HomeController {
         .once("value", (snap) => {
           temperatureData = snap.val();
         });
-        Object.values(temperatureData).map((el) => {
-          temperatureSensor.push ({
-            temperature: el.temperature,
-            timestamp: el.timestamp
-          })
+      Object.values(temperatureData).map((el) => {
+        temperatureSensor.push({
+          temperature: el.temperature,
+          timestamp: el.timestamp,
         });
-      res.status(200).json({ tRecords: temperatureSensor});
+      });
+      res.status(200).json({ tRecords: temperatureSensor });
     } catch (e) {
       next(e);
     }
@@ -87,13 +87,13 @@ export class HomeController {
           gasData = snap.val();
         });
 
-        Object.values(gasData).map((el) => {
-          gasSensor.push ({
-            gas: el.gas,
-            timestamp: el.timestamp
-          })
+      Object.values(gasData).map((el) => {
+        gasSensor.push({
+          gas: el.gas,
+          timestamp: el.timestamp,
         });
-      res.status(200).json({ gRecords: gasSensor});
+      });
+      res.status(200).json({ gRecords: gasSensor });
     } catch (e) {
       next(e);
     }
@@ -109,9 +109,57 @@ export class HomeController {
         .once("value", (snap) => {
           sensor = snap.val();
         });
-        res.status(200).json({ dataPoints: Object.values(sensor)});
+      res.status(200).json({ dataPoints: Object.values(sensor) });
     } catch (e) {
       next(e);
+    }
+  }
+
+  getInfoW(req, res, next) {
+    try {
+      res.set("Content-Type", "application/td+json");
+      res.json({
+        "@context": "https://www.w3.org/2019/wot/td/v1",
+        id: "https://air-quality-sensor.herokuapp.com/",
+        title: "AirQualitySensor",
+        description:
+          "A NodeMCU ESP8266 with connected temp/humidity, gas sensors.",
+        securityDefinitions: { nosec_sc: { scheme: "nosec" } },
+        security: "nosec_sc",
+        properties: {
+          temperature: {
+            type: "object",
+            properties: {
+              timestamp: "string",
+              temperature: "float",
+            },
+            forms: [
+              { href: "https://air-quality-sensor.herokuapp.com/api/temperature" },
+            ],
+          },
+          humidity: {
+            type: "object",
+            properties: {
+              timestamp: "string",
+              humidity: "float",
+            },
+            forms: [
+              { href: "https://air-quality-sensor.herokuapp.com/api/humidity" },
+            ],
+          },
+          gasLevel: {
+            type: "object",
+            properties: {
+              timestamp: "float",
+              gas: "float",
+            },
+            forms: [{ href: "https://air-quality-sensor.herokuapp.com/api/gas" }],
+          },
+        },
+      });
+    } catch (e) {
+      res.status(400).send(e.errors);
+      next();
     }
   }
 }
