@@ -17,6 +17,25 @@
     <button @click="collectData()" class="btn btn-success">CHECK</button>
     <br />
     <bar-chart :axisData="axisData" v-if="axisData.length > 0" />
+    <br />
+    <table id="firstTable" v-if="axisData.length > 0">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Humidity</th>
+          <th>Temperature</th>
+          <th>Gas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(data, index) in axisData" :key="index">
+          <td>{{ data.x }}</td>
+          <td>{{ data.y }}</td>
+          <td>{{ data.z}}</td>
+          <td>{{ data.g}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -32,12 +51,12 @@ export default {
   data() {
     return {
       axisData: [],
-      diagrams: [{ diagram: "Bar Chart1" }, { diagram: "Bar Chart2" }, { diagram: "Bar Chart3" }, { diagram: "Donut Chart1" } ],
+      diagrams: [{ diagram: "Bar Chart1" }, { diagram: "Bar Chart2" }, { diagram: "Bar Chart3" }],
     };
   },
   methods: {
-    collectData() {
-      axios
+    getData() {
+       axios
         .get("http://localhost:8080/api/quality")
         .then((response) => {
           this.axisData = response.data.dataPoints.map((el) => ({
@@ -50,6 +69,12 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+      setTimeout(this.axisData.splice(0, this.axisData.length), 15000)
+    },
+    collectData() {
+      setInterval(() => {
+       this.getData();
+      }, 15000)  
     },
   },
 };
@@ -73,12 +98,49 @@ body {
   height: 100%;
 }
 
+h1 {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 2rem;
+  color: rgb(5, 74, 116);
+}
+
 button {
   width: auto;
   height: auto;
   font-weight: bold;
   font-size: 1rem;
   background-color: rgb(113, 160, 190);
+}
+
+#firstTable {
+  margin-top: 5em;
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#firstTable td,
+#firstTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#firstTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#firstTable tr:hover {
+  background-color: #ddd;
+}
+
+#firstTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #445676;
+  color: white;
 }
 
 </style>

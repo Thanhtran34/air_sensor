@@ -3,7 +3,6 @@
  */
 import admin from "firebase-admin";
 import { cert } from "firebase-admin/app";
-import Pusher from "pusher";
 
 // Credentials for firebase real time database
 admin.initializeApp({
@@ -24,17 +23,6 @@ admin.initializeApp({
 const db = admin.database();
 const path = "/UsersData/" + process.env.SECRET; // path to data for air quality
 const userRef = db.ref(path);
-let sensor;
-
-
-const pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID,
-  key: process.env.PUSHER_APP_KEY,
-  secret: process.env.PUSHER_APP_SECRET,
-  cluster: process.env.PUSHER_APP_CLUSTER,
-  encrypted: true,
-});
-
 
 /**
  * Encapsulates a home controller.
@@ -114,6 +102,7 @@ export class HomeController {
   // Method to get all sensor data from firebase
   async getAllData(req, res, next) {
     try {
+      let sensor;
       await userRef
         .child("readings")
         .limitToLast(12)
@@ -121,31 +110,6 @@ export class HomeController {
           sensor = snap.val();
         });
         res.status(200).json({ dataPoints: Object.values(sensor)});
-    } catch (e) {
-      next(e);
-    }
-  }
-
-  async updateData(req, res, next) {
-    try {
-      let newSensorData;
-      let newPoint;
-        await userRef
-          .child("readings")
-          .limitToLast(1)
-          .once("value", (snap) => {
-            newSensorData = snap.val();
-          });
-
-        newPoint = Object.values(newSensorData).pop();
-
-        pusher.trigger("air-quality", "new-quality", {
-          dataPoint: newPoint,
-        });
-      res.send({
-        success: true,
-        dataPoint: newPoint
-      });
     } catch (e) {
       next(e);
     }

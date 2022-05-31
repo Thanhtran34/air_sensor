@@ -5,7 +5,6 @@
     <svg id="svg1"></svg>
     <svg id="svg2"></svg>
     <svg id="svg3"></svg>
-    <svg id="svg4"></svg>
   </div>
 </template>
 
@@ -23,97 +22,6 @@ export default {
     },
   },
   methods: {
-    renderDoughnutChart() {
-      const width = 250,
-        height = 400,
-        radius = Math.min(width, height) / 2;
-      const scale = d3.scaleLinear().range([10, radius - 20]);
-      const color = d3.scaleOrdinal()
-        .range([
-          "cyan",
-          "green",
-          "blue",
-          "brown",
-          "violet",
-          "orange",
-          "purple",
-        ]);
-
-      const arcMajor = d3
-        .arc()
-        // eslint-disable-next-line no-unused-vars
-        .outerRadius(function (d) {
-          return radius - 5;
-        })
-        .innerRadius(0);
-      //this for making the minor arc
-      const arcMinor = d3
-        .arc()
-        .outerRadius(function (d) {
-          // scale for calculating the radius range([20, radius - 40])
-          return scale(d.data.y - d.data.z);
-        })
-        .innerRadius(0);
-
-      const pie = d3
-        .pie()
-        .sort(null)
-        .value(function (d) {
-          return d.y;
-        });
-
-      const svg = d3
-        .select("#svg1")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-      //setting the scale domain
-      scale.domain([
-        d3.min(this.filteredData, function (d) {
-          return d.z + 0.1;
-        }),
-        d3.max(this.filteredData, function (d) {
-          return d.z + 1.5;
-        }),
-      ]);
-
-      const g = svg
-        .selectAll(".arc")
-        .data(pie(this.filteredData))
-        .enter()
-        .append("g")
-        .attr("class", "arc");
-
-      //this makes the major arc
-      g.append("path")
-        .attr("d", function (d) {
-          return arcMajor(d);
-        })
-        .style("fill", function (d) {
-          return d3.rgb(color(d.data.g));
-        });
-
-      //this makes the minor arcs
-      g.append("path")
-        .attr("d", function (d) {
-          return arcMinor(d);
-        })
-        .style("fill", function (d) {
-          return d3.rgb(color(d.data.g)).darker(2); //for making the inner path darker
-        });
-
-        svg
-        .append("text")
-        .attr("x", width / 3)
-        .attr("y", "12em")
-        .attr("text-anchor", "end")
-        .style("font-size", "12px")
-        .style("font-weight", "bold")
-        .text("Multilayer Pie Chart for Air Quality");
-    },
-
     renderHumidityChart() {
       const height = 300;
       const roundedHeight = Math.ceil((height + 1) / 10) * 10;
@@ -132,7 +40,7 @@ export default {
         .range([roundedHeight, 10]);
 
       const container = d3
-        .select("#svg2")
+        .select("#svg1")
         .classed("chart-container", true)
         .style("height", `${roundedHeight}px`)
         .style("width", `${width}px`);
@@ -229,7 +137,7 @@ export default {
         .range([roundedHeight, 10]);
 
       const container = d3
-        .select("#svg3")
+        .select("#svg2")
         .classed("chart-container", true)
         .style("height", `${roundedHeight}px`)
         .style("width", `${width}px`);
@@ -326,7 +234,7 @@ export default {
         .range([roundedHeight, 10]);
 
       const container = d3
-        .select("#svg4")
+        .select("#svg3")
         .classed("chart-container", true)
         .style("height", `${roundedHeight}px`)
         .style("width", `${width}px`);
@@ -407,13 +315,11 @@ export default {
     },
   },
   mounted() {
-    this.renderDoughnutChart();
     this.renderHumidityChart();
     this.renderTemperatureChart();
     this.renderGasChart();
   },
   updated() {
-    this.renderDoughnutChart();
     this.renderHumidityChart();
     this.renderTemperatureChart();
     this.renderGasChart();
@@ -428,12 +334,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .chart-container,
+#svg1,
 #svg2,
-#svg3,
-#svg4 {
+#svg3 {
   border: 2px solid navy;
   margin-top: 4em;
-  margin-left: 35px;
+  margin-left: 30px;
   margin-right: auto;
   overflow: visible;
 }
@@ -465,17 +371,4 @@ path.domain {
   fill: rgb(235, 164, 59);
 }
 
-.arc text {
-    font: 5px sans-serif;
-    text-anchor: middle;
-}
-.arc path {
-    stroke: #fff;
-}
-
-#svg1{
-  position: inherit;
-  margin-right: 35px;
-   margin-top: 4em;
-}
 </style>
