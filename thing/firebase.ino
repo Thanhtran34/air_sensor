@@ -59,7 +59,7 @@ float pressure;
 
 // Timer variables (send new readings every three minutes)
 unsigned long sendDataPrevMillis = 0;
-unsigned long timerDelay = 180000;
+unsigned long timerDelay = 300000;
 
 
 // Initialize WiFi
