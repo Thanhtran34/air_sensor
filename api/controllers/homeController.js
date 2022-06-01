@@ -200,7 +200,7 @@ export class HomeController {
               temperature: 'float',
               gas: 'float'
             },
-            forms: [{ href: 'https://air-quality-sensor.herokuapp.com/quality' }]
+            forms: [{ href: 'https://air-quality-sensor.herokuapp.com' }]
           },
         },
       });

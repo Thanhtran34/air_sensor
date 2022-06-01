@@ -8,7 +8,6 @@
  const controller = new HomeController();
  
  router.get("/", (req, res, next) =>{ controller.getAllData(req, res, next)});
- router.get("/quality", (req, res, next) =>{ controller.getAllData(req, res, next)});
  router.get("/humidity", (req, res, next) => controller.getHumidity(req, res, next));
  router.get("/temperature", (req, res, next) => controller.getTemperature(req, res, next));
  router.get("/gas", (req, res, next) => controller.getGas(req, res, next));
