@@ -13,6 +13,7 @@
  router.get("/api/gas", (req, res, next) => controller.getGas(req, res, next));
  router.get("/api/status", (req, res, next) => controller.getNewestData(req, res, next));
  router.get("/api/thing", (req, res, next) => controller.getInfoW(req, res, next));
+ router.get("/api/data", (req, res, next) => controller.updateData(req, res, next));
 
  router.use("*", (req, res, next) => {
    const error = new Error();

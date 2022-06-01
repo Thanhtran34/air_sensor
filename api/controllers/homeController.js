@@ -192,6 +192,16 @@ export class HomeController {
             },
             forms: [{ href: "https://air-quality-sensor.herokuapp.com/api/gas" }],
           },
+          airQuality: {
+            type: 'object',
+            properties: {
+              timestamp: 'string',
+              humidity: 'float',
+              temperature: 'float',
+              gas: 'float'
+            },
+            forms: [{ href: 'https://air-quality-sensor.herokuapp.com/api/quality' }]
+          },
         },
       });
     } catch (e) {
@@ -200,10 +210,9 @@ export class HomeController {
     }
   }
 
-  updateData(req, res, next) {
+  async updateData(req, res, next) {
     try {
       let sensor;
-      setInterval(async() => {
         await userRef
         .child("readings")
         .limitToLast(12)
@@ -213,9 +222,12 @@ export class HomeController {
         
         const poll = Object.values(sensor);
         pusher.trigger('poll-channel', 'update-poll', {
-          poll,
+          newData: poll,
         });
-      }, 1000);
+      res.send({
+        success: true,
+        dataPoints: poll
+      })
     } catch (e) {
       next(e);
     }
