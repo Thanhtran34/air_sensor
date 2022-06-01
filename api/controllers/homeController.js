@@ -11,7 +11,7 @@ admin.initializeApp({
     type: process.env.TYPE,
     project_id: process.env.ID,
     private_key_id: process.env.KEY_ID,
-    private_key: process.env.KEY,
+    private_key: process.env.KEY.replace(/\\n/g, '\n'),
     client_email: process.env.EMAIL,
     client_id: process.env.CLIENT,
     auth_uri: process.env.AUTH_URI,
@@ -162,7 +162,7 @@ export class HomeController {
               temperature: 'float',
               gas: 'float'
             },
-            forms: [{ href: 'https://air-quality-sensor.herokuapp.com/api/status' }]
+            forms: [{ href: 'https://air-quality-sensor.herokuapp.com/status' }]
           },
           temperature: {
             type: "object",
@@ -171,7 +171,7 @@ export class HomeController {
               temperature: "float",
             },
             forms: [
-              { href: "https://air-quality-sensor.herokuapp.com/api/temperature" },
+              { href: "https://air-quality-sensor.herokuapp.com/temperature" },
             ],
           },
           humidity: {
@@ -181,7 +181,7 @@ export class HomeController {
               humidity: "float",
             },
             forms: [
-              { href: "https://air-quality-sensor.herokuapp.com/api/humidity" },
+              { href: "https://air-quality-sensor.herokuapp.com/humidity" },
             ],
           },
           gasLevel: {
@@ -190,7 +190,7 @@ export class HomeController {
               timestamp: "float",
               gas: "float",
             },
-            forms: [{ href: "https://air-quality-sensor.herokuapp.com/api/gas" }],
+            forms: [{ href: "https://air-quality-sensor.herokuapp.com/gas" }],
           },
           airQuality: {
             type: 'object',
@@ -200,7 +200,7 @@ export class HomeController {
               temperature: 'float',
               gas: 'float'
             },
-            forms: [{ href: 'https://air-quality-sensor.herokuapp.com/api/quality' }]
+            forms: [{ href: 'https://air-quality-sensor.herokuapp.com/quality' }]
           },
         },
       });

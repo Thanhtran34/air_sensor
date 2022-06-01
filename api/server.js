@@ -11,6 +11,7 @@ const main = async () => {
   // To allow cross origin connections so that the webapp can connect to our server
   app.use(cors());
 
+  /** 
   if (process.env.NODE_ENV === 'production') {
     // Serve static files.
     app.use(express.static(join(directoryFullName, 'public')))
@@ -19,6 +20,7 @@ const main = async () => {
       res.sendFile(join(directoryFullName + './public/index.html'))
     })
   }
+  */
 
   // Register routes.
   app.use("/", router);
