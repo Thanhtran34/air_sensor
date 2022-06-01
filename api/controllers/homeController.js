@@ -3,6 +3,7 @@
  */
 import admin from "firebase-admin";
 import { cert } from "firebase-admin/app";
+import Pusher from "pusher";
 
 // Credentials for firebase real time database
 admin.initializeApp({
@@ -23,6 +24,15 @@ admin.initializeApp({
 const db = admin.database();
 const path = "/UsersData/" + process.env.SECRET; // path to data for air quality
 const userRef = db.ref(path);
+
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_APP_KEY,
+  secret: process.env.PUSHER_APP_SECRET,
+  cluster: process.env.PUSHER_APP_CLUSTER,
+  encrypted: true,
+});
+
 
 /**
  * Encapsulates a home controller.
@@ -115,6 +125,23 @@ export class HomeController {
     }
   }
 
+  // Method to get latest sensor data from firebase
+  async getNewestData(req, res, next) {
+    try {
+      let sensor;
+      await userRef
+        .child("readings")
+        .limitToLast(1)
+        .once("value", (snap) => {
+          sensor = snap.val();
+        });
+      res.status(200).json({ dataPoints: Object.values(sensor) });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  // form single TD default
   getInfoW(req, res, next) {
     try {
       res.set("Content-Type", "application/td+json");
@@ -127,6 +154,16 @@ export class HomeController {
         securityDefinitions: { nosec_sc: { scheme: "nosec" } },
         security: "nosec_sc",
         properties: {
+          status: {
+            type: 'object',
+            properties: {
+              timestamp: 'string',
+              humidity: 'float',
+              temperature: 'float',
+              gas: 'float'
+            },
+            forms: [{ href: 'https://air-quality-sensor.herokuapp.com/api/status' }]
+          },
           temperature: {
             type: "object",
             properties: {
@@ -160,6 +197,27 @@ export class HomeController {
     } catch (e) {
       res.status(400).send(e.errors);
       next();
+    }
+  }
+
+  updateData(req, res, next) {
+    try {
+      let sensor;
+      setInterval(async() => {
+        await userRef
+        .child("readings")
+        .limitToLast(12)
+        .once("value", (snap) => {
+          sensor = snap.val();
+        });
+        
+        const poll = Object.values(sensor);
+        pusher.trigger('poll-channel', 'update-poll', {
+          poll,
+        });
+      }, 1000);
+    } catch (e) {
+      next(e);
     }
   }
 }

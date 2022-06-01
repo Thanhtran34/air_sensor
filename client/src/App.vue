@@ -42,6 +42,7 @@
 <script>
 import BarChart from "./components/BarChart.vue";
 import axios from "axios";
+import Pusher from 'pusher-js'
 
 export default {
   name: "App",

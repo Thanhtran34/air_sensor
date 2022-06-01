@@ -129,7 +129,7 @@ void setup(){
 void loop(){
   h = analogRead(A0);
   if (isnan(h)){
-  Serial.println("Failed to read from MQ-5 sensor!");
+  Serial.println("Failed to read from MQ-35 sensor!");
   return;
   }
   // Send new readings to database

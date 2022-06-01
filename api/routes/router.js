@@ -11,6 +11,7 @@
  router.get("/api/humidity", (req, res, next) => controller.getHumidity(req, res, next));
  router.get("/api/temperature", (req, res, next) => controller.getTemperature(req, res, next));
  router.get("/api/gas", (req, res, next) => controller.getGas(req, res, next));
+ router.get("/api/status", (req, res, next) => controller.getNewestData(req, res, next));
  router.get("/api/thing", (req, res, next) => controller.getInfoW(req, res, next));
 
  router.use("*", (req, res, next) => {
