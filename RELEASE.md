@@ -38,11 +38,9 @@ List of material:
 | Totalt            | 668kr |                                           |   
 |                   |       |                                           |  
 
-![NodeMCU!](img/nodemcu.PNG) { width: 200px; }
-
-![DHT11!](img/dht11.PNG) { width: 200px; }
-
-![MQ135!](img/mq135.PNG) { width: 200px; }
+<img src="img/nodemcu.PNG" alt="NodeMCU" style="height: 200px; width:200px;"/>
+<img src="img/dht11.PNG" alt="NodeMCU" style="height: 200px; width:200px;"/>
+<img src="img/mq135.PNG" alt="NodeMCU" style="height: 200px; width:200px;"/>
 
 ### Computer setup
 
