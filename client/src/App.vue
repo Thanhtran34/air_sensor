@@ -67,9 +67,7 @@ export default {
     return {
       axisData: [],
       diagrams: [
-        { diagram: "Bar Chart1" },
-        { diagram: "Bar Chart2" },
-        { diagram: "Bar Chart3" },
+        { diagram: "Bar Chart" },
       ],
     };
   },
