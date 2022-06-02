@@ -22,10 +22,11 @@
         >(Gas contains NH3, Nox, CO2, Alcohol, Benzene, Smoke. Gas level is
         measured to detect harmful gas in the environment.)</i>
     </p>
+     <button @click="fetchData()" class="btn btn-success">
+        CHECK
+      </button>
     <div v-if="axisData.length > 0">
     <svg id="svg1"></svg>
-    <svg id="svg2"></svg>
-    <svg id="svg3"></svg>
     </div>
     <br />
     <table id="firstTable" v-if="axisData.length > 0">
@@ -72,12 +73,6 @@ export default {
       ],
     };
   },
-  created() {
-    this.fetchData();
-  },
-  mounted() {
-    this.fetchData();
-  },
   methods: {
     fetchData() {
       setInterval(() => {
@@ -98,20 +93,16 @@ export default {
               );
             });
             this.renderHumidityChart();
-            this.renderTemperatureChart();
-            this.renderGasChart();
           })
           .catch((error) => {
             console.log(error);
           });
-          // clean data for d3 graph
-          setTimeout(this.axisData.splice(0, this.axisData.length), 15000)
       }, 15000);
     },
     renderHumidityChart() {
-      const height = 300;
+      const height = 600;
       const roundedHeight = Math.ceil((height + 1) / 10) * 10;
-      const width = 450;
+      const width = 850;
      
       // set the ranges
       const xScale = d3
@@ -205,206 +196,9 @@ export default {
         .attr("class", "line") // Assign a class for styling
         .attr("d", line(this.axisData)); // 11. Calls the line generator
     },
-    renderTemperatureChart() {
-      const height = 300;
-      const roundedHeight = Math.ceil((height + 1) / 10) * 10;
-      const width = 450;
-
-      // set the ranges
-      const xScale = d3
-        .scaleBand()
-        .domain(this.axisData.map((dataPoint) => dataPoint.x))
-        .range([0, width])
-        .padding(0.2);
-
-      const yScale = d3
-        .scaleLinear()
-        .domain([0, 100])
-        .range([roundedHeight, 10]);
-
-      const container = d3
-        .select("#svg2")
-        .classed("chart-container", true)
-        .style("height", `${roundedHeight}px`)
-        .style("width", `${width}px`);
-
-      // eslint-disable-next-line no-unused-vars
-      container
-        .selectAll(".bar1")
-        .data(this.axisData)
-        .enter()
-        .append("rect")
-        .classed("bar1", true)
-        .attr("width", xScale.bandwidth())
-        .attr("height", (data) => roundedHeight - yScale(data.z))
-        .attr("x", (data) => xScale(data.x))
-        .attr("y", (data) => yScale(data.z));
-      // add the x Axis
-      container
-        .append("g")
-        .attr("transform", "translate(0," + roundedHeight + ")")
-        .style("font", "16px times")
-        .call(d3.axisBottom(xScale))
-        .selectAll("text")
-        .attr("transform", "translate(-15, 15) rotate(-45)");
-
-      // add the y Axis
-      container
-        .append("g")
-        .style("font", "16px times")
-        .call(d3.axisLeft(yScale));
-
-      container
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", "20px")
-        .attr("text-anchor", "middle")
-        .style("font-size", "18px")
-        .style("font-weight", "bold")
-        .text("Temperature Barchart");
-
-      const texts = container
-        .selectAll(".mytexts1")
-        .data(this.axisData)
-        .enter()
-        .append("text");
-      texts
-        .attr("class", "value")
-        .attr("x", function (d) {
-          return xScale(d.x);
-        })
-        .attr("y", function (d) {
-          return yScale(d.z);
-        })
-        .attr("dx", 25)
-        .attr("dy", "1em")
-        .attr("text-anchor", "end")
-        .text(function (d) {
-          return d.z;
-        })
-        .attr("font-family", "sans-serif")
-        .attr("font-weight", "bold")
-        .attr("font-size", "18px")
-        .attr("color", "black");
-
-      const line = d3
-        .line()
-        .x(function (d) {
-          return xScale(d.x) + xScale.bandwidth() / 2;
-        })
-        .y(function (d) {
-          return yScale(d.z);
-        })
-        .curve(d3.curveMonotoneX);
-
-      container
-        .append("path")
-        .attr("class", "line") // Assign a class for styling
-        .attr("d", line(this.axisData)); // 11. Calls the line generator
-
-    },
-    renderGasChart() {
-      const height = 300;
-      const roundedHeight = Math.ceil((height + 1) / 10) * 10;
-      const width = 450;
-
-      // set the ranges
-      const xScale = d3
-        .scaleBand()
-        .domain(this.axisData.map((dataPoint) => dataPoint.x))
-        .range([0, width])
-        .padding(0.2);
-
-      const yScale = d3
-        .scaleLinear()
-        .domain([0, 100])
-        .range([roundedHeight, 10]);
-
-      const container = d3
-        .select("#svg3")
-        .classed("chart-container", true)
-        .style("height", `${roundedHeight}px`)
-        .style("width", `${width}px`);
-
-      // eslint-disable-next-line no-unused-vars
-      container
-        .selectAll(".bar2")
-        .data(this.axisData)
-        .enter()
-        .append("rect")
-        .classed("bar2", true)
-        .attr("width", xScale.bandwidth())
-        .attr("height", (data) => roundedHeight - yScale(data.g))
-        .attr("x", (data) => xScale(data.x))
-        .attr("y", (data) => yScale(data.g));
-      // add the x Axis
-      container
-        .append("g")
-        .attr("transform", "translate(0," + roundedHeight + ")")
-        .style("font", "16px times")
-        .call(d3.axisBottom(xScale))
-        .selectAll("text")
-        .attr("transform", "translate(-15, 15) rotate(-45)");
-
-      // add the y Axis
-      container
-        .append("g")
-        .style("font", "16px times")
-        .call(d3.axisLeft(yScale));
-
-      container
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", "20px")
-        .attr("text-anchor", "middle")
-        .style("font-size", "18px")
-        .style("font-weight", "bold")
-        .text("Gas Barchart");
-
-      const texts = container
-        .selectAll(".mytexts2")
-        .data(this.axisData)
-        .enter()
-        .append("text");
-      texts
-        .attr("class", "value")
-        .attr("x", function (d) {
-          return xScale(d.x);
-        })
-        .attr("y", function (d) {
-          return yScale(d.g);
-        })
-        .attr("dx", 30)
-        .attr("dy", "1em")
-        .attr("text-anchor", "end")
-        .text(function (d) {
-          return d.g;
-        })
-        .attr("font-family", "sans-serif")
-        .attr("font-weight", "bold")
-        .attr("font-size", "15px")
-        .attr("color", "black");
-
-      const line = d3
-        .line()
-        .x(function (d) {
-          return xScale(d.x) + xScale.bandwidth() / 2;
-        })
-        .y(function (d) {
-          return yScale(d.g);
-        })
-        .curve(d3.curveMonotoneX);
-
-      container
-        .append("path")
-        .attr("class", "line") // Assign a class for styling
-        .attr("d", line(this.axisData)); // 11. Calls the line generator
-    },
   },
   updated() {
     this.renderHumidityChart();
-    this.renderTemperatureChart();
-    this.renderGasChart();
   },
   beforeUpdate() {
     const svg = d3.select("svg");
@@ -506,11 +300,5 @@ path.domain {
   fill: rgb(80, 120, 231);
 }
 
-.bar1 {
-  fill: rgb(237, 124, 143);
-}
-
-.bar2 {
-  fill: rgb(235, 164, 59);
-}
+.bar:hover {fill: orange; }
 </style>
