@@ -52,14 +52,12 @@ How is the device programmed? Which IDE are you using? Describe all steps from f
 
 ### Putting everything together
 
-How is all the electronics connected? Describe all the wiring. Good if you can show a circuit diagram. Be specific on how to connect everything and what to think of in terms of resistors, current, and voltage. Is this only for a development setup, or could it be used in production?
-
 - Circuit diagram 
 
 <img src="img/cirdht.PNG" alt="circuit DHT" style="height: 200px; width:200px;"/>
 <img src="img/cirmq.PNG" alt="circuit MQ35" style="height: 200px; width:200px;"/>
 
-- *Electrical calculations: NodeMCU ESP8266 always uses between 3.3V to 5V. DHT11 has 3 legs and MQ135 has 4 legs. MQ135 evaluates the gas level via analog A0 in NodeMCU ESP8266. 
+- *Electrical calculations: NodeMCU ESP8266 always uses between 3.3V to 5V. DHT11 has 3 legs and MQ135 has 4 legs. MQ135 evaluates the gas level via analog A0 in NodeMCU ESP8266. This project can be used in both development and production. 
 
 ### Platform
 
@@ -103,18 +101,22 @@ for the client.
 
 ### Presenting the data
 
-Describe the presentation part. How is the dashboard built? How long is the data preserved in the database?
-
-- [ ] Provide visual examples of how the dashboard looks. Pictures needed.
-- [ ] How often is data saved in the database.
-- [ ] *Explain your choice of database.
-- [ ] *Automation/triggers of the data.
-
+- Provide visual examples of how the dashboard looks. Pictures needed.
+- How often is data saved in the database: The data is sent and saved direct to Firebase database every 30 minutes.
+- *Explain your choice of database: Firebase real-time database has good supports for Arduino project with different libraries. The data is sent fast and stored fast. It is easy to mange the data like adding more data or delete one of them. Since it is free plan so it only gives 1GB for storage but it is already bigger than Mongo Atlas with only 512MB. The reason to choose this is that it is real-time database. 
+- *Automation/triggers of the data: The data is sent via webhook - Pusher from FireBase to client via API. Pusher will trigger an event in API then bind it to a channel to receive data from FireBase.
+- Because of the limitation of the storage of Firebase (1GB/month), the old data might be deleted each month to get more space.
 
 ### Finalizing the design
 
 Show the final results of your project. Give your final thoughts on how you think the project went. What could have been done in another way, or even better? Some pictures are nice!
 
-- [ ] Show the final results of the project
+- Show the final results of the project
+I have added WoT Thing Description for a Simple Default TD IoT project to API. The project has 3 parts: IoT thing (NodeMCU ESP8266, DHT11 and MQ135), REST API for communication between client and FireBase database and the Vue3 client apps which uses D3 to show a real-time bar chart for humidity. Data is sent to client every 15 seconds via Pusher. 
++ [API](https://air-quality-sensor.herokuapp.com/thing) 
++ [Client](https://air-quality-sensor.herokuapp.com/thing) 
 - [ ] Pictures
 - [ ] Video presentation of the project
+
+#### Final thought:
+It is an interesting project to try IoT but it was not easy from the beginning. The real cost of the project is higher because I had no knowledge what I should buy and what is not needed. It took time to learn how to use bredboard and I have spent much time to change versions of libraries in Arduino to get compatibility. Without right versions, the data is not sent anywhere. I have tried to connect Arduino Uno R3 with NodeMCU ESP8266 to get 1 more light sensor because NodeMCU has only 1 analog gate and light sensor need analog gate but the transfer between these two did not go well at all. The data was sent unreadable and I have spent 2-3 days to just connect them but unsuccessful so now only NodeMCU left. I would like to use BM280 sensor or DHT22 sensor to estimate humidity with less inaccuracy rate. Besides, I did think to use real-time clock RTC DS3231 with light to light up whenever the data is sent to Firebase but have not found any suitable solution. 
