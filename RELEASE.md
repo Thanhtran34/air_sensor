@@ -50,7 +50,6 @@ List of material:
 - The code is uploaded via PORT(COM3) in Arduino with help of the USB cable 2.0 via a computer. The tool must be identified to NodeMCU ESP 8266 12F.
 - To set up IoT, Arduino IDE must be installed and has access to the library. The wi-fi credentials needs to be provided by the user to connect to FireBase real-time database. 
 
-How is the device programmed? Which IDE are you using? Describe all steps from flashing the firmware to installing plugins in your favorite editor and how flashing is done on MicroPython. The aim is that a beginner should be able to understand.
 
 ### Putting everything together
 
