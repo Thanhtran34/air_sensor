@@ -4,8 +4,9 @@
     <p>
       This apps collects sensor data from its IoT thing and shows the air
       quality (humidity - °C, temperature - °C and gas level) for your room or
-      wherever you are through your wi-fi connection. Data is sent in every 30 minutes.
+      wherever you are through your wi-fi connection.
     </p>
+    <p> Data is sent in every 30 minutes.</p>
     <p>
       Humidity is measured by DHT11 sensor and gas level is measured by MQ135
       sensor. The data is collected for the <strong>last 6 hours</strong>.
