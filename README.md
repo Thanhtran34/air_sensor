@@ -37,12 +37,6 @@ List of material:
 | Totalt            | 668kr |                                           |   
 |                   |       |                                           |  
 
-<img src="img/nodemcu.PNG" alt="NodeMCU" height="200" width="200"/>
-
-<img src="img/dht11.PNG" alt="NodeMCU" height="200" width="200"/>
-
-<img src="img/mq135.PNG" alt="NodeMCU" height="200" width="200"/>
-
 ### Computer setup
 
 - IoT thing is programmed with C++ in Arduino IDE for Window and different libraries (DHT library, Adafruit library, Firebase library...). The Adafruit library is included in the folder thing. Other can be found in Arduino library.
@@ -51,12 +45,6 @@ List of material:
 
 
 ### Putting everything together
-
-- Circuit diagram 
-
-<img src="img/cirdht.PNG" alt="circuit DHT" height="300" width="350"/>
-
-<img src="img/cirmq.PNG" alt="circuit MQ35" height="300" width="350"/>
 
 - *Electrical calculations: NodeMCU ESP8266 always uses between 3.3V to 5V. DHT11 has 3 legs and MQ135 has 4 legs. MQ135 evaluates the gas level via analog A0 in NodeMCU ESP8266. This project can be used in both development and production. 
 
