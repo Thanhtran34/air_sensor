@@ -20,7 +20,7 @@ help you to evaluate air quality wherever you are with an available wi-fi connec
 List of material: 
 + 1 NodeMCU ESP8266 12F: send Data via Wi-fi (microcontroller)
 + bredboard: link between the sensor and the wire
-+ Jumper Wires : connect the energy(battery) to sensor
++ Jumper Wires : connect NodeMCU to sensor (DHT11 and MQ135)
 + 1 battery 9V : energy for IoT thing
 + battery connector: link battery to IoT thing
 + 1DHT11: sensor for humidity and temperature
@@ -32,14 +32,16 @@ List of material:
 | Node MCU ESP8266  | 90kr  | [Amazon](https://www.amazon.se/)          |  
 | Sensor Package    | 300kr | [Elektrokit](https://www.electrokit.com/) |  
 | MQ35              | 78kr  | [Amazon](https://www.amazon.se/)          |  
-| Batteri 9V        | 25kr  | [Amazon](https://www.amazon.se/)          |   
-| Batteri Connector | 25kr  | [Amazon](https://www.amazon.se/)          |   
+| Battery 9V        | 25kr  | [Amazon](https://www.amazon.se/)          |   
+| Battery Connector | 25kr  | [Amazon](https://www.amazon.se/)          |   
 | Bredboard package | 150kr | [Amazon](https://www.amazon.se/)          |   
 | Totalt            | 668kr |                                           |   
 |                   |       |                                           |  
 
 <img src="img/nodemcu.PNG" alt="NodeMCU" style="height: 200px; width:200px;"/>
+
 <img src="img/dht11.PNG" alt="NodeMCU" style="height: 200px; width:200px;"/>
+
 <img src="img/mq135.PNG" alt="NodeMCU" style="height: 200px; width:200px;"/>
 
 ### Computer setup
@@ -55,6 +57,7 @@ How is the device programmed? Which IDE are you using? Describe all steps from f
 - Circuit diagram 
 
 <img src="img/cirdht.PNG" alt="circuit DHT" style="height: 200px; width:200px;"/>
+
 <img src="img/cirmq.PNG" alt="circuit MQ35" style="height: 200px; width:200px;"/>
 
 - *Electrical calculations: NodeMCU ESP8266 always uses between 3.3V to 5V. DHT11 has 3 legs and MQ135 has 4 legs. MQ135 evaluates the gas level via analog A0 in NodeMCU ESP8266. This project can be used in both development and production. 
@@ -103,7 +106,10 @@ for the client.
 
 - Provide visual examples of how the dashboard looks. Pictures needed.
 - How often is data saved in the database: The data is sent and saved direct to Firebase database every 30 minutes.
-- *Explain your choice of database: Firebase real-time database has good supports for Arduino project with different libraries. The data is sent fast and stored fast. It is easy to mange the data like adding more data or delete one of them. Since it is free plan so it only gives 1GB for storage but it is already bigger than Mongo Atlas with only 512MB. The reason to choose this is that it is real-time database. 
+- *Explain your choice of database: Firebase real-time database has good supports for Arduino project with different libraries. The data is sent and stored fast. It is easy to manage the data like adding more data or delete one of them. Since it is free plan so it only gives 1GB for storage but it is already bigger than Mongo Atlas with only 512MB. The reason for my choice is that it is real-time database. The picture below shows how the data in Firebase database looks like.
+
+<img src="img/database.PNG" alt="FireBase database" style="height: 200px; width:200px;"/>
+
 - *Automation/triggers of the data: The data is sent via webhook - Pusher from FireBase to client via API. Pusher will trigger an event in API then bind it to a channel to receive data from FireBase.
 - Because of the limitation of the storage of Firebase (1GB/month), the old data might be deleted each month to get more space.
 
@@ -115,7 +121,11 @@ Show the final results of your project. Give your final thoughts on how you thin
 I have added WoT Thing Description for a Simple Default TD IoT project to API. The project has 3 parts: IoT thing (NodeMCU ESP8266, DHT11 and MQ135), REST API for communication between client and FireBase database and the Vue3 client apps which uses D3 to show a real-time bar chart for humidity. Data is sent to client every 15 seconds via Pusher. 
 + [API](https://air-quality-sensor.herokuapp.com/thing) 
 + [Client](https://air-quality-sensor.herokuapp.com/thing) 
-- [ ] Pictures
+- Pictures: The final project is shown below. The data begins sending to Firebase when the ON/OFF button is ON. At that time, energy from battery will help NodeMCU to send the data it get from 2 sensor.
+
+<img src="img/final1.jpg" alt="final project" style="height: 200px; width:200px;"/>
+
+<img src="img/final2.jpg" alt="final project 2" style="height: 200px; width:200px;"/>
 - [ ] Video presentation of the project
 
 #### Final thought:
