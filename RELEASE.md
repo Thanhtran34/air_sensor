@@ -89,7 +89,7 @@ if (Firebase.ready() && (millis() - sendDataPrevMillis > timerDelay || sendDataP
     json.set(timePath, String(timestamp));
     Serial.printf("Set json... %s\n", Firebase.RTDB.setJSON(&fbdo, parentPath.c_str(), &json) ? "ok" : fbdo.errorReason().c_str());
 
-# This function will read the data for humidity/temperature from DHT11 with help of DHT library and send to FireaBase via wi-fi. The
+# This function will read the data for humidity/temperature from DHT11 with help of DHT library and send to FireBase via wi-fi. The
 gas level is collected from A0 analog and calculated then sent to Firebase too.
 ```
 
