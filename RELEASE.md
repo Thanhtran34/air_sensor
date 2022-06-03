@@ -96,6 +96,8 @@ gas level is collected from A0 analog and calculated then sent to Firebase too.
 
 ### Data flow / Connectivity
 
+IoT thing ---> FireBase real-time database ---> API ---> Pusher webhook ---> Vue graph app
+
 - How often is the data sent? The data is sent every 30 minutes to FireBase and the API will get the last 12 data to show up 
 for the client.
 - Which wireless protocols did you use (WiFi, LoRa, etc ...)? Wifi protocols has been used
@@ -120,13 +122,16 @@ Show the final results of your project. Give your final thoughts on how you thin
 - Show the final results of the project
 I have added WoT Thing Description for a Simple Default TD IoT project to API. The project has 3 parts: IoT thing (NodeMCU ESP8266, DHT11 and MQ135), REST API for communication between client and FireBase database and the Vue3 client apps which uses D3 to show a real-time bar chart for humidity. Data is sent to client every 15 seconds via Pusher. 
 + [API](https://air-quality-sensor.herokuapp.com/thing) 
-+ [Client](https://air-quality-sensor.herokuapp.com/thing) 
++ [Client](https://humidity-app.herokuapp.com/) 
 - Pictures: The final project is shown below. The data begins sending to Firebase when the ON/OFF button is ON. At that time, energy from battery will help NodeMCU to send the data it get from 2 sensor.
 
 <img src="img/final1.jpg" alt="final project" height="350" width="350"/>
 
 <img src="img/final2.jpg" alt="final project 2" height="350" width="350"/>
-- [ ] Video presentation of the project
+
+
+- Video presentation of the project
+[Youtube](https://www.youtube.com/watch?v=ZkG5hSEqiz0)
 
 #### Final thought:
 It is an interesting project to try IoT but it was not easy from the beginning. The real cost of the project is higher because I had no knowledge what I should buy and what is not needed. It took time to learn how to use bredboard and I have spent much time to change versions of libraries in Arduino to get compatibility. Without right versions, the data is not sent anywhere. I have tried to connect Arduino Uno R3 with NodeMCU ESP8266 to get 1 more light sensor because NodeMCU has only 1 analog gate and light sensor need analog gate but the transfer between these two did not go well at all. The data was sent unreadable and I have spent 2-3 days to just connect them but unsuccessful so now only NodeMCU left. I would like to use BM280 sensor or DHT22 sensor to estimate humidity with less inaccuracy rate but they are more expensive. Besides, I did think to use real-time clock RTC DS3231 with light to light up whenever the data is sent to Firebase but have not found any suitable solution. D3 was hard with multiple real-time chart so I did make only one. The message sent via Pusher is costly if it has more than 200 000 message so it is more suitable to have just one nice real-time bar chart which update automatically every 15 seconds. 
