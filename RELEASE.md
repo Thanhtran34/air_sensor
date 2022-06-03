@@ -38,11 +38,11 @@ List of material:
 | Totalt            | 668kr |                                           |   
 |                   |       |                                           |  
 
-<img src="img/nodemcu.PNG" alt="NodeMCU" style="height: 200px; width:200px;"/>
+<img src="img/nodemcu.PNG" alt="NodeMCU" style="height: 100px; width:100px;"/>
 
-<img src="img/dht11.PNG" alt="NodeMCU" style="height: 200px; width:200px;"/>
+<img src="img/dht11.PNG" alt="NodeMCU" style="height: 100px; width:100px;"/>
 
-<img src="img/mq135.PNG" alt="NodeMCU" style="height: 200px; width:200px;"/>
+<img src="img/mq135.PNG" alt="NodeMCU" style="height: 100px; width:100px;"/>
 
 ### Computer setup
 
@@ -108,7 +108,7 @@ for the client.
 - How often is data saved in the database: The data is sent and saved direct to Firebase database every 30 minutes.
 - *Explain your choice of database: Firebase real-time database has good supports for Arduino project with different libraries. The data is sent and stored fast. It is easy to manage the data like adding more data or delete one of them. Since it is free plan so it only gives 1GB for storage but it is already bigger than Mongo Atlas with only 512MB. The reason for my choice is that it is real-time database. The picture below shows how the data in Firebase database looks like.
 
-<img src="img/database.PNG" alt="FireBase database" style="height: 100px; width:100px;"/>
+<img src="img/database.PNG" alt="FireBase database" style="height: 50px; width: 50px;"/>
 
 - *Automation/triggers of the data: The data is sent via webhook - Pusher from FireBase to client via API. Pusher will trigger an event in API then bind it to a channel to receive data from FireBase.
 - Because of the limitation of the storage of Firebase (1GB/month), the old data might be deleted each month to get more space.
