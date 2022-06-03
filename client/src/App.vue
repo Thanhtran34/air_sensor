@@ -76,7 +76,7 @@ export default {
     fetchData() {
       setInterval(() => {
         axios
-          .get("http://localhost:8080/data")
+          .get("/data")
           // eslint-disable-next-line no-unused-vars
           .then((response) => {
             channel.bind("update-poll", (data) => {
