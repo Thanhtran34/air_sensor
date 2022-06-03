@@ -56,9 +56,9 @@ How is the device programmed? Which IDE are you using? Describe all steps from f
 
 - Circuit diagram 
 
-<img src="img/cirdht.PNG" alt="circuit DHT" height="300" width="300"/>
+<img src="img/cirdht.PNG" alt="circuit DHT" height="300" width="350"/>
 
-<img src="img/cirmq.PNG" alt="circuit MQ35" height="300" width="300"/>
+<img src="img/cirmq.PNG" alt="circuit MQ35" height="300" width="350"/>
 
 - *Electrical calculations: NodeMCU ESP8266 always uses between 3.3V to 5V. DHT11 has 3 legs and MQ135 has 4 legs. MQ135 evaluates the gas level via analog A0 in NodeMCU ESP8266. This project can be used in both development and production. 
 
@@ -108,7 +108,7 @@ for the client.
 - How often is data saved in the database: The data is sent and saved direct to Firebase database every 30 minutes.
 - *Explain your choice of database: Firebase real-time database has good supports for Arduino project with different libraries. The data is sent and stored fast. It is easy to manage the data like adding more data or delete one of them. Since it is free plan so it only gives 1GB for storage but it is already bigger than Mongo Atlas with only 512MB. The reason for my choice is that it is real-time database. The picture below shows how the data in Firebase database looks like.
 
-<img src="img/database.PNG" alt="FireBase database" height="200" width="200"/>
+<img src="img/database.PNG" alt="FireBase database" height="300" width="350"/>
 
 - *Automation/triggers of the data: The data is sent via webhook - Pusher from FireBase to client via API. Pusher will trigger an event in API then bind it to a channel to receive data from FireBase.
 - Because of the limitation of the storage of Firebase (1GB/month), the old data might be deleted each month to get more space.
