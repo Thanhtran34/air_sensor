@@ -111,7 +111,5 @@ I have added WoT Thing Description for a Simple Default TD IoT project to API. T
 
 <img src="img/final2.jpg" alt="final project 2" height="350" width="350"/>
 
-- Video of project
-[Youtube](https://www.youtube.com/watch?v=ZkG5hSEqiz0)
 
 
